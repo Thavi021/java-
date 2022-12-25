@@ -1,0 +1,30 @@
+Semaphore mutex=1, wrt=1;
+int readcount=0;
+
+//Writer Thread/Process
+while(true)
+{
+semaphoreName.acquire(wrt);
+while (counter == 10);
+buffer[in] = input that we want to send/keep/write on to the buffer;
+in = (in + 1) % 10;
+counter++;
+Signal(wrt);
+}
+
+//Reader Threads/Processes
+while(true)
+{
+semaphoreName.acquire(mutex);
+readcount++;
+if(readcount == 1) Wait(wrt);
+Signal(mutex);
+while (counter == 0);
+output that we read/retrieve from the buffer = buffer[out];
+out = (out + 1) % BUFFER SIZE;
+counter--;
+semaphoreName.acquire(mutex);
+readcount--;
+if(readcount == 0) Signal(wrt);
+Signal(mutex);
+}
